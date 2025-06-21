@@ -1,0 +1,26 @@
+// Reutilizamos la mayoría de los estilos de las otras tablas de gestión.
+@import '../product-management/product-management.component.scss';
+
+// Estilos específicos para los badges de estado del pedido
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+  text-transform: capitalize;
+
+  &.procesando { background-color: #f59e0b; } // Ámbar
+  &.enviado { background-color: #3b82f6; }    // Azul
+  &.completado { background-color: #22c55e; }  // Verde
+  &.cancelado { background-color: #ef4444; } // Rojo
+}
+
+.order-id {
+  font-family: monospace;
+  color: var(--text-secondary);
+}
+
+.action-button.view:hover {
+  color: #3b82f6; // Azul para "ver"
+}

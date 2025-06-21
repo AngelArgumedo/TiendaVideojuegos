@@ -1,0 +1,71 @@
+<!-- src/app/features/products/product-list/product-list.component.html -->
+
+<!-- El contenedor principal ahora tiene una nueva clase para el contexto de posicionamiento -->
+<div class="product-list-page">
+
+  <!-- ¡NUEVO! Este div será nuestro fondo animado -->
+  <app-hero-background></app-hero-background>
+
+  <!-- La condición @if ahora oculta estas secciones si hay cualquier tipo de filtro activo -->
+  @if (!state().currentCategory && !state().currentSearchTerm && !state().currentConsole) {
+    <!-- --- SECCIÓN DEL CARRUSEL --- -->
+    <section class="hero-carousel-section">
+      <h2 class="section-title">Novedades</h2>
+      <div class="carousel-container">
+        @for (product of featuredProducts(); track product.id) {
+          <a [routerLink]="['/productos', product.id]" class="carousel-slide">
+            <img [src]="product.imagen_url" [alt]="product.nombre">
+            <div class="slide-overlay">
+              <h3>{{ product.nombre }}</h3>
+            </div>
+          </a>
+        }
+      </div>
+    </section>
+
+    <!-- --- SECCIÓN DE MARCAS --- -->
+    <section class="brand-showcase-section">
+      <h2 class="section-title">Exploración por Marca</h2>
+      <div class="brands-container">
+        @for (brand of brands; track brand.name) {
+          <a [routerLink]="brand.link" class="brand-logo">
+            <img [src]="brand.logoUrl" [alt]="brand.name">
+          </a>
+        }
+      </div>
+    </section>
+  }
+
+  <!-- --- SECCIÓN DEL CATÁLOGO --- -->
+  <section class="catalog-section">
+    <h1 class="page-title">
+      @if(state().currentConsole) {
+        Juegos y Accesorios para {{ state().currentConsole }}
+      } @else if(state().currentCategory){
+        {{ state().currentCategory }}
+      } @else if (state().currentSearchTerm) {
+        Resultados para "{{ state().currentSearchTerm }}"
+      } @else {
+        Nuestro Catálogo
+      }
+    </h1>
+
+    @switch (true) {
+      @case (state().loading) { <div class="state-container"><p>Cargando...</p></div> }
+      @case (state().error !== null) { <div class="state-container error"><p>{{ state().error }}</p></div> }
+      @case (filteredProducts().length > 0) {
+        <div class="product-grid">
+          @for (product of filteredProducts(); track product.id) {
+            <app-product-card [product]="product"></app-product-card>
+          }
+        </div>
+      }
+      @default {
+        <div class="state-container">
+          <p>No se encontraron productos que coincidan con tu búsqueda.</p>
+        </div>
+      }
+    }
+  </section>
+
+</div>

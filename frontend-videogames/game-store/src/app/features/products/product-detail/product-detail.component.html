@@ -1,0 +1,84 @@
+<div class="detail-container">
+  @switch (true) {
+
+    <!-- Casos de Carga y Error (sin cambios) -->
+    @case (state().loading) { <!-- ... --> }
+    @case (state().error !== null) { <!-- ... --> }
+
+    <!-- ¡NUEVA ESTRUCTURA PARA LA VISTA DE ÉXITO! -->
+    @case (state().product !== null) {
+      <div class="detail-layout">
+
+        <!-- 1. Tarjeta Principal del Producto -->
+        <div class="product-detail-card">
+          <div class="product-detail-card__image-wrapper">
+            <img [src]="state().product?.imagen_url" [alt]="state().product?.nombre" class="product-detail-card__image">
+          </div>
+          <div class="product-detail-card__info">
+            <a routerLink="/productos" class="back-button">&larr; Volver al catálogo</a>
+            <h1 class="product-detail-card__title">{{ state().product?.nombre }}</h1>
+            <p class="product-detail-card__category">{{ state().product?.consola }} / {{ state().product?.categoria }}</p>
+            <p class="product-detail-card__price">{{ state().product?.precio | currency:'USD':'symbol':'1.0-0' }}</p>
+
+            <div class="product-detail-card__stock" [class.low-stock]="state().product?.stock! < 10">
+              @if(state().product?.stock! > 0){
+                <span>Disponible: {{ state().product?.stock }} unidades</span>
+              } @else {
+                <span class="out-of-stock">Agotado</span>
+              }
+            </div>
+
+            <h2 class="product-detail-card__section-title">Descripción</h2>
+            <p class="product-detail-card__description">{{ state().product?.descripcion }}</p>
+
+            @if(state().product?.stock! > 0){
+              <button class="product-detail-card__add-to-cart-button" (click)="addToCart()">
+                Añadir al Carrito
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- 2. Nueva Sección de Calificaciones y Opiniones -->
+        <div class="community-section">
+          <!-- Calificaciones Generales -->
+          <div class="ratings-overview">
+            <h2 class="section-title">Calificaciones</h2>
+            <div class="rating-summary">
+              <span class="rating-score">{{ state().averageRating }}</span>
+              <div class="stars-container">
+                @for(star of [1,2,3,4,5]; track star){
+                  <i class="fa-solid fa-star" [class.filled]="star <= state().averageRating"></i>
+                }
+              </div>
+              <span class="rating-count">({{ state().reviews.length }} opiniones)</span>
+            </div>
+          </div>
+
+          <!-- Lista de Opiniones -->
+          <div class="reviews-section">
+            <h2 class="section-title">Opiniones de Compradores</h2>
+            @for(review of state().reviews; track review.author){
+              <div class="review-card">
+                <div class="review-header">
+                  <img [src]="review.avatarUrl" alt="avatar" class="review-avatar">
+                  <div class="review-author-info">
+                    <span class="review-author">{{ review.author }}</span>
+                    <span class="review-date">{{ review.date }}</span>
+                  </div>
+                  <div class="review-stars">
+                    @for(star of [1,2,3,4,5]; track star){
+                      <i class="fa-solid fa-star" [class.filled]="star <= review.rating"></i>
+                    }
+                  </div>
+                </div>
+                <p class="review-comment">{{ review.comment }}</p>
+              </div>
+            }
+          </div>
+        </div>
+
+      </div>
+    }
+  }
+</div>

@@ -1,0 +1,82 @@
+// Usamos las variables globales de :root
+.product-card {
+  background-color: var(--dark-bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.3); // Usando el color primario para el brillo
+  }
+
+  &__image-container {
+    height: 250px;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    border-top: 1px solid var(--border-color);
+  }
+
+  &__title {
+    color: var(--text-primary);
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin: 0 0 1.5rem 0;
+    height: 3.375rem; // Espacio para hasta 2-3 líneas de texto (1.125rem * 1.5 line-height * 2)
+    line-height: 1.5;
+    // Lógica para truncar texto largo
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  &__footer {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+
+  &__price {
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  &__button {
+      background-color: transparent;
+      border: 2px solid var(--primary-color);
+      color: var(--primary-color);
+      font-weight: 700;
+      padding: 0.6rem 1.2rem;
+      border-radius: 5px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background-color 0.3s ease, color 0.3s ease;
+
+      &:hover {
+        background-color: var(--primary-color);
+        color: var(--dark-bg-primary);
+      }
+  }
+}

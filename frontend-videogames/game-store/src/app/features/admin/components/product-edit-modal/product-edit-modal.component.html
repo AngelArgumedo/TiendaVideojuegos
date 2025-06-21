@@ -1,0 +1,76 @@
+<div class="modal-backdrop" (click)="onClose()"></div>
+
+<div class="modal-container">
+  <div class="modal-header">
+    <h3>{{ isEditMode ? 'Editando Producto' : 'Añadir Nuevo Producto' }}</h3>
+    <button class="close-button" (click)="onClose()" title="Cerrar modal">&times;</button>
+  </div>
+
+  <div class="modal-body">
+    <form (ngSubmit)="onSaveChanges()" #editForm="ngForm">
+
+      <div class="form-group">
+        <label for="prod-nombre">Nombre del Producto</label>
+        <input id="prod-nombre" type="text" name="nombre" [(ngModel)]="editableProduct.nombre" required>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="prod-categoria">Categoría</label>
+          <select id="prod-categoria" name="categoria" [(ngModel)]="editableProduct.categoria" required>
+            <option value="Juego">Juego</option>
+            <option value="Consola">Consola</option>
+            <option value="Figura">Figura</option>
+            <option value="Tarjeta">Tarjeta</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="prod-consola">Consola / Plataforma</label>
+          <!-- ¡CAMBIO! Ahora es un <select> -->
+          <select id="prod-consola" name="consola" [(ngModel)]="editableProduct.consola">
+            @for (option of consoleOptions; track option) {
+              <option [value]="option">{{ option }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="prod-precio">Precio</label>
+          <input id="prod-precio" type="number" name="precio" [(ngModel)]="editableProduct.precio" required min="0">
+        </div>
+        <div class="form-group">
+          <label for="prod-stock">Stock</label>
+          <input id="prod-stock" type="number" name="stock" [(ngModel)]="editableProduct.stock" required min="0">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="prod-descripcion">Descripción</label>
+        <textarea id="prod-descripcion" name="descripcion" [(ngModel)]="editableProduct.descripcion" rows="4"></textarea>
+      </div>
+
+      <!-- ¡CAMBIO! El campo de imagen ahora siempre es visible -->
+      <div class="form-group image-upload-group">
+        <label for="prod-imagen">Imagen del Producto</label>
+        <div class="image-preview">
+          @if (imagePreview) {
+            <img [src]="imagePreview" alt="Vista previa">
+          } @else {
+            <span>Sin imagen</span>
+          }
+        </div>
+        <input id="prod-imagen" type="file" accept="image/png, image/jpeg, image/gif" (change)="onFileSelected($event)">
+        <small>{{ isEditMode ? 'Selecciona un archivo para reemplazar la imagen.' : 'Sube una imagen para el nuevo producto.' }}</small>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="button-secondary" (click)="onClose()">Cancelar</button>
+        <button type="submit" class="button-primary" [disabled]="editForm.invalid">
+          {{ isEditMode ? 'Guardar Cambios' : 'Crear Producto' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

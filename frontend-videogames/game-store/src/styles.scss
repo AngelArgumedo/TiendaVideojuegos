@@ -1,0 +1,44 @@
+/* src/styles.scss */
+
+// --- Importación de Fuentes ---
+// Usaremos "Roboto" como en la imagen de referencia.
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+// --- Variables SASS Globales ---
+// Las definimos aquí para poder usarlas en cualquier componente.
+:root {
+  --primary-color: #ffc107;      // Amarillo/Dorado para acentos
+  --dark-bg-primary: #121212;   // Fondo principal muy oscuro
+  --dark-bg-secondary: #1e1e1e; // Fondo para elementos como tarjetas
+  --text-primary: #ffffff;
+  --text-secondary: #aaaaaa;
+  --border-color: #2c2c2c;
+}
+
+// --- Reseteo Básico y Estilos del Body ---
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--dark-bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// --- Estilos para la barra de scroll ---
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--dark-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}

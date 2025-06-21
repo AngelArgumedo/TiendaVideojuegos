@@ -1,0 +1,262 @@
+// src/app/shared/components/header/header.component.scss
+
+// --- Animaciones ---
+@keyframes glitch {
+  0%, 100% { clip-path: inset(50% 0 30% 0); transform: translate(0, 0); }
+  20% { clip-path: inset(20% 0 60% 0); transform: translate(-2px, 1px); }
+  40% { clip-path: inset(70% 0 10% 0); transform: translate(2px, -1px); }
+  60% { clip-path: inset(40% 0 40% 0); transform: translate(1px, 2px); }
+  80% { clip-path: inset(10% 0 75% 0); transform: translate(-1px, -2px); }
+}
+
+@keyframes cart-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+// --- Estilos Generales ---
+.main-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  font-family: 'Roboto', sans-serif;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  height: 100%;
+}
+
+// --- Barra Superior ---
+.top-bar {
+  background-color: var(--dark-bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  height: 70px;
+}
+
+// --- Logo con Animaciones ---
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: var(--text-primary);
+
+  i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    transition: transform 0.3s ease;
+  }
+
+  &:hover i {
+    transform: rotate(-15deg);
+  }
+}
+
+.logo-text {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.logo-glitch {
+  display: inline-block;
+  position: relative;
+
+  &::before, &::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--dark-bg-secondary);
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .header-logo:hover &::before, .header-logo:hover &::after {
+    opacity: 1;
+  }
+
+  &::before {
+    left: 2px;
+    text-shadow: -1px 0 #ff00c1;
+    animation: glitch 2s infinite linear alternate-reverse;
+  }
+  &::after {
+    left: -2px;
+    text-shadow: -1px 0 #00ffff;
+    animation: glitch 3s infinite linear alternate-reverse;
+  }
+}
+
+
+// --- Barra de Búsqueda ---
+.search-bar {
+  display: flex;
+  align-items: center; // Mantiene los elementos centrados verticalmente
+  position: relative;
+  width: 45%;
+  height: 44px;
+
+  .search-icon {
+    position: absolute;
+    left: 1rem;
+    color: var(--text-secondary);
+    pointer-events: none; // Evita que el icono interfiera con el clic en el input
+  }
+
+  input {
+    flex-grow: 1;
+    border: 1px solid var(--border-color);
+    background-color: var(--dark-bg-primary);
+    color: var(--text-primary);
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    height: 100%; // Asegura que el input ocupe toda la altura
+    box-sizing: border-box; // Incluye padding y borde en el alto total
+
+    &:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.2);
+    }
+  }
+
+  button {
+    background-color: var(--primary-color);
+    color: #121212;
+    border: none;
+    padding: 0 1.5rem;
+    cursor: pointer;
+    font-weight: 700;
+    border-radius: 0 5px 5px 0;
+    transition: background-color 0.2s ease;
+    height: 100%; // Asegura que el botón ocupe toda la altura
+
+    &:hover {
+      background-color: lighten(#ffc107, 10%);
+    }
+  }
+}
+
+// --- Acciones de Usuario ---
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.action-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+  &:hover { color: var(--text-primary); }
+  i { font-size: 1.25rem; }
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  i { font-size: 1.25rem; }
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.5rem;
+  &:hover { color: #ef4444; }
+  i { font-size: 1.1rem; }
+}
+
+.cart-link {
+  position: relative;
+  &:hover {
+    i { animation: cart-bounce 0.5s ease-in-out; }
+  }
+}
+
+.cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: var(--primary-color);
+    color: #121212;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+// --- Barra Inferior ---
+.bottom-bar {
+  background-color: var(--dark-bg-primary);
+  height: 45px;
+  .header-container {
+    justify-content: center;
+  }
+}
+
+.main-nav {
+  display: flex;
+  align-items: center; // Alineamos verticalmente todos los items
+  gap: 2.5rem;
+  height: 100%;
+
+  a {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+
+    &:hover, &.active-link {
+      color: var(--text-primary);
+      border-bottom-color: var(--primary-color);
+    }
+  }
+
+  // --- ¡NUEVO! Estilo para el enlace de Admin ---
+  .admin-nav-link {
+    color: var(--primary-color); // Lo destacamos con el color primario
+    gap: 0.5rem;
+
+    i {
+      font-size: 1rem;
+    }
+
+    &:hover, &.active-link {
+      color: var(--text-primary);
+      background-color: rgba(var(--primary-color), 0.1); // Un ligero fondo al pasar el mouse o estar activo
+    }
+  }
+}

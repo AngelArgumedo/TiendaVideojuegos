@@ -1,0 +1,167 @@
+// src/app/features/auth/register/register.component.scss
+
+// Usamos las variables globales de nuestro styles.scss
+:host { display: block; }
+
+.register-page {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 115px);
+  padding: 2rem;
+  overflow: hidden;
+}
+
+.register-background {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  z-index: -1;
+  background-image: url('https://mir-s3-cdn-cf.behance.net/project_modules/fs/9bc27292880429.5e569ff84e4d0.gif');
+  background-size: cover;
+  background-position: center;
+  filter: blur(10px) brightness(0.6);
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.register-container {
+  z-index: 2;
+  width: 100%;
+  max-width: 520px;
+  background-color: rgba(31, 41, 55, 0.6);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  padding: 2.5rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--text-primary);
+  .logo-icon {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+  }
+  h2 { font-size: 1.875rem; font-weight: bold; }
+  p { color: var(--text-secondary); }
+}
+
+// --- ¡CORRECCIÓN AQUÍ! ---
+// Usamos CSS Grid para un control perfecto de las columnas.
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr; // Dos columnas de igual fracción de espacio.
+  gap: 1rem; // El espacio entre las columnas.
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+  label {
+    display: block;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    background-color: rgba(55, 65, 81, 0.7);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.2s ease;
+    box-sizing: border-box; // Asegura que el padding no afecte el ancho total.
+
+    &:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(var(--primary-color), 0.4);
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 60px;
+  }
+}
+
+// ... (El resto de los estilos para .message, .submit-button, etc. no cambian) ...
+.message {
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  &.error {
+    background-color: rgba(239, 68, 68, 0.2);
+    border: 1px solid #ef4444;
+    color: #fca5a5;
+  }
+  &.success {
+    background-color: rgba(45, 212, 191, 0.2);
+    border: 1px solid #2dd4bf;
+    color: #5eead4;
+  }
+}
+
+.submit-button {
+  width: 100%;
+  background-color: var(--primary-color);
+  color: #121212;
+  padding: 0.875rem;
+  font-size: 1.125rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  &:hover:not(:disabled) {
+    background-color: lighten(#ffc107, 10%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.2);
+  }
+  &:disabled {
+    background-color: #4b5563;
+    cursor: not-allowed;
+  }
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.login-link {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: var(--text-secondary);
+  a {
+    color: var(--primary-color);
+    font-weight: 500;
+    text-decoration: none;
+    &:hover { text-decoration: underline; }
+  }
+}

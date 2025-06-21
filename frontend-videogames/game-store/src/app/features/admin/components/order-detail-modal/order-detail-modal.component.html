@@ -1,0 +1,80 @@
+<!-- src/app/features/admin/components/order-detail-modal/order-detail-modal.component.html -->
+<div class="modal-backdrop" (click)="onClose()"></div>
+<div class="modal-container">
+  @if(isLoading()){
+    <div class="loading-view">
+      <span class="spinner"></span>
+      <span>Cargando detalles...</span>
+    </div>
+  } @else if (orderDetails()) {
+    <div class="modal-header">
+      <div class="header-content">
+        <i class="fas fa-receipt"></i>
+        <h3>Pedido #{{ orderDetails()!.id.slice(-6).toUpperCase() }}</h3>
+      </div>
+      <button class="close-button" (click)="onClose()" title="Cerrar">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Tarjeta de Información del Cliente -->
+      <div class="info-card">
+        <div class="info-item">
+          <label><i class="fas fa-user"></i> Cliente</label>
+          <span>{{ orderDetails()!.cliente_nombre }}</span>
+        </div>
+        <div class="info-item">
+          <label><i class="fas fa-envelope"></i> Correo</label>
+          <span>{{ orderDetails()!.cliente_correo }}</span>
+        </div>
+        <div class="info-item full-width">
+          <label><i class="fas fa-map-marker-alt"></i> Dirección de Envío</label>
+          <span>{{ orderDetails()!.cliente_direccion }}, {{ orderDetails()!.cliente_pais }}</span>
+        </div>
+      </div>
+
+      <!-- Tabla de Productos del Pedido -->
+      <h4 class="section-title">Artículos del Pedido</h4>
+      <div class="items-table-wrapper">
+        <table class="items-table">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th class="text-right">Precio Unit.</th>
+              <th class="text-right">Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for(item of orderDetails()!.items; track item.nombre_producto){
+              <tr>
+                <td>{{ item.nombre_producto }}</td>
+                <td>x{{ item.cantidad }}</td>
+                <td class="text-right">{{ item.precio_unitario | currency:'USD' }}</td>
+                <td class="text-right font-bold">{{ (+item.precio_unitario * item.cantidad) | currency:'USD' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <div class="status-update">
+        <label for="status-select">
+          <i class="fas fa-truck"></i>
+          <span>Estado</span>
+        </label>
+        <select id="status-select" [(ngModel)]="selectedStatus" [ngClass]="selectedStatus">
+          <option value="procesando">Procesando</option>
+          <option value="enviado">Enviado</option>
+          <option value="completado">Completado</option>
+          <option value="cancelado">Cancelado</option>
+        </select>
+      </div>
+      <div class="footer-actions">
+        <button type="button" class="button-secondary" (click)="onClose()">Cerrar</button>
+        <button type="button" class="button-primary" (click)="onUpdateStatus()">Actualizar Estado</button>
+      </div>
+    </div>
+  }
+</div>

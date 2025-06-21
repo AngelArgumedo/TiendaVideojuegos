@@ -1,0 +1,157 @@
+// src/app/features/admin/components/user-edit-modal/user-edit-modal.component.scss
+
+// Usamos las variables globales de :root
+:host {
+  font-family: 'Roboto', sans-serif;
+}
+
+// --- Estilos del Modal ---
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(18, 18, 18, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 1040;
+}
+
+.modal-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--dark-bg-secondary);
+  color: var(--text-primary);
+  width: 90%;
+  max-width: 600px;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  z-index: 1050;
+  border: 1px solid var(--border-color);
+  animation: slideInUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translate(-50%, -40%); }
+  to { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+
+  h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+  &:hover {
+    color: white;
+    transform: rotate(90deg);
+  }
+}
+
+.modal-body {
+  padding: 1.5rem;
+  max-height: 70vh; // Para permitir scroll en pantallas pequeñas
+  overflow-y: auto;
+}
+
+// --- Estilos de Formulario ---
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+  label {
+    display: block;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    background-color: var(--dark-bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+
+    &:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2);
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid var(--border-color);
+  background-color: var(--dark-bg-secondary);
+  border-bottom-left-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+}
+
+.button-primary, .button-secondary {
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.button-primary {
+  background-color: var(--primary-color);
+  color: #121212;
+  &:hover:not(:disabled) {
+    background-color: lighten(#ffc107, 10%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+  &:disabled { background-color: #4b5563; color: var(--text-secondary); cursor: not-allowed; }
+}
+
+.button-secondary {
+  background-color: #374151;
+  color: var(--text-primary);
+  &:hover { background-color: #4b5563; }
+}

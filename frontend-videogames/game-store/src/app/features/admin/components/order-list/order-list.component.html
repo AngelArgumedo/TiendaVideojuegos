@@ -1,0 +1,70 @@
+<div class="management-container">
+  <div class="list-header">
+    <h1>Gestión de Pedidos</h1>
+  </div>
+
+  @switch (true) {
+    @case (state().loading) {
+      <div class="state-view"><span class="spinner"></span>Cargando pedidos...</div>
+    }
+    @case (state().error != null) {
+      <div class="state-view error">{{ state().error }}</div>
+    }
+    @case (state().orders.length > 0) {
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID Pedido</th>
+              <th>Cliente</th>
+              <th>Fecha</th>
+              <th>Total</th>
+              <th>Estado</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (order of state().orders; track order.id) {
+              <tr>
+                <td class="order-id">#{{ order.id.slice(-6) }}</td>
+                <td>
+                  <div>{{ order.nombre_usuario }}</div>
+                  <small>{{ order.correo_usuario }}</small>
+                </td>
+                <td>{{ order.fecha_pedido | date:'short' }}</td>
+                <td>{{ order.total | currency:'USD':'symbol':'1.0-0' }}</td>
+                <td>
+                  <span class="status-badge" [ngClass]="order.estado">{{ order.estado }}</span>
+                </td>
+                <td class="actions-cell">
+
+                  <button class="action-button edit" title="Cambiar Estado del pedido" (click)="onViewDetails(order.id)">
+                    <i class="fas fa-truck-fast"></i>
+                  </button>
+
+                  <!-- <button class="action-button view" title="Cambiar estado">
+                    <i class="fas fa-truck-fast"></i>
+                  </button> -->
+
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+    @default {
+      <div class="state-view">No se han realizado pedidos todavía.</div>
+    }
+  }
+</div>
+
+
+<!-- ¡Renderizado condicional del nuevo modal! -->
+@if(selectedOrderId()){
+  <app-order-detail-modal
+    [orderId]="selectedOrderId()!"
+    (close)="onCloseModal()"
+    (statusUpdated)="onStatusUpdated()">
+  </app-order-detail-modal>
+}

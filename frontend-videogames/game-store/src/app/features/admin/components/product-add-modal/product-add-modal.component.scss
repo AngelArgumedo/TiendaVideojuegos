@@ -1,0 +1,229 @@
+/* src/app/features/admin/components/product-add-modal/product-add-modal.component.scss */
+
+// Usamos las variables globales de :root
+:host {
+  font-family: 'Roboto', sans-serif;
+}
+
+// --- Estilos del Modal ---
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(18, 18, 18, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 1040;
+}
+
+.modal-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--dark-bg-secondary);
+  color: var(--text-primary);
+  width: 90%;
+  max-width: 600px;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  z-index: 1050;
+  border: 1px solid var(--border-color);
+  animation: fadeIn 0.3s ease-out;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -45%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+  &:hover {
+    color: white;
+    transform: rotate(90deg);
+  }
+}
+
+.modal-body {
+  padding: 1.5rem;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+// --- Estilos de Formulario ---
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+  label {
+    display: block;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    background-color: var(--dark-bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+
+    &:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2);
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+}
+
+// --- Estilos para la Subida de Imagen ---
+.image-upload-group {
+  .image-preview {
+    width: 100%;
+    height: 150px;
+    background-color: var(--dark-bg-primary);
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+    border: 2px dashed var(--border-color);
+    // Elimina cursor: pointer; si el input ya no se oculta
+
+    img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    span { // Estilo para "Sin imagen"
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+  }
+
+  // Estilo para el input de tipo file cuando es visible
+  input[type="file"] {
+    width: 100%; // Ocupa todo el ancho
+    background-color: var(--dark-bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem; // Ajusta el padding para que se vea bien
+    color: var(--text-secondary); // Color del texto nativo
+    font-size: 0.9rem;
+    font-family: inherit;
+    box-sizing: border-box;
+    cursor: pointer;
+
+    &::file-selector-button {
+      background-color: #374151;
+      color: var(--text-primary);
+      border: none;
+      padding: 0.75rem;
+      margin-right: 1rem;
+      border-radius: 0.5rem; // Bordes redondeados para el botón interno
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: #4b5563;
+      }
+    }
+  }
+
+  small {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-top: 1px solid var(--border-color);
+  background-color: var(--dark-bg-secondary);
+  border-bottom-left-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+}
+
+.button-primary,
+.button-secondary {
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.button-primary {
+  background-color: var(--primary-color);
+  color: #121212;
+  &:hover:not(:disabled) {
+    background-color: lighten(#ffc107, 10%);
+  }
+  &:disabled {
+    background-color: #4b5563;
+    color: var(--text-secondary);
+    cursor: not-allowed;
+  }
+}
+
+.button-secondary {
+  background-color: #374151;
+  color: var(--text-primary);
+  &:hover {
+    background-color: #4b5563;
+  }
+}

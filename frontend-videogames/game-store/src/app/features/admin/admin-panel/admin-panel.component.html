@@ -1,0 +1,36 @@
+<!-- src/app/features/admin/admin-panel/admin-panel.component.html -->
+
+<div class="admin-layout">
+  <!-- Barra Lateral de Navegación -->
+  <aside class="admin-sidebar">
+    <div class="sidebar-profile">
+      <i class="fa-solid fa-user-shield profile-icon"></i>
+      <div class="profile-info">
+        <span class="profile-name">{{ authService.currentUser()?.nombre }}</span>
+        <span class="profile-role">Administrador</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a routerLink="/admin/usuarios" routerLinkActive="active">
+        <i class="fas fa-users fa-fw"></i>
+        <span>Usuarios</span>
+      </a>
+      <a routerLink="/admin/productos" routerLinkActive="active">
+        <i class="fas fa-box-open fa-fw"></i>
+        <span>Productos</span>
+      </a>
+      <a routerLink="/admin/pedidos" routerLinkActive="active">
+        <i class="fas fa-receipt fa-fw"></i>
+        <span>Pedidos</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Área de Contenido Principal -->
+  <main class="admin-content">
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>

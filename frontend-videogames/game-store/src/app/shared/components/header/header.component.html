@@ -1,0 +1,68 @@
+<!-- src/app/shared/components/header/header.component.html -->
+
+<header class="main-header">
+  <!-- Barra Superior: Logo, Búsqueda y Acciones de Usuario -->
+  <div class="top-bar">
+    <div class="header-container">
+      <a routerLink="/" class="header-logo">
+        <i class="fa-solid fa-gamepad"></i>
+        <div class="logo-text">
+          <span>Game</span><span class="logo-glitch" data-text="Trade">Trade</span>
+        </div>
+      </a>
+
+      <form class="search-bar" (ngSubmit)="onSearch()">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input
+          type="text"
+          placeholder="Buscar productos, marcas y más..."
+          [(ngModel)]="searchTerm"
+          name="searchTerm"
+          (keyup.enter)="onSearch()">
+        <button type="button" (click)="onSearch()">BUSCAR</button>
+      </form>
+
+      <div class="user-actions">
+        @if (isAuthenticated()) {
+          <div class="user-menu">
+            <i class="fa-solid fa-user-circle"></i>
+            <span>Hola, {{ currentUser()?.nombre }}</span>
+            <button (click)="logout()" class="logout-button" title="Salir">
+              <i class="fa-solid fa-right-from-bracket"></i>
+            </button>
+          </div>
+        } @else {
+          <a routerLink="/login" class="action-link">
+            <i class="fa-regular fa-user"></i>
+            <span>Entrar</span>
+          </a>
+        }
+        <a routerLink="/carrito" class="action-link cart-link">
+          <i class="fa-solid fa-cart-shopping"></i>
+          @if (cartService.cartState().totalItems > 0) {
+            <span class="cart-badge">{{ cartService.cartState().totalItems }}</span>
+          }
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Barra Inferior: Navegación Principal -->
+  <div class="bottom-bar">
+    <div class="header-container">
+      <nav class="main-nav">
+        <a routerLink="/productos" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">CATALOGO</a>
+        <a routerLink="/productos/categoria/Juego" routerLinkActive="active-link">VIDEO JUEGOS</a>
+        <a routerLink="/productos/categoria/Consola" routerLinkActive="active-link">CONSOLAS & HARDWARE</a>
+        <a routerLink="/productos/categoria/Figura" routerLinkActive="active-link">FIGURAS</a>
+
+        @if (isAdmin()) {
+          <a routerLink="/admin" routerLinkActive="active-link" class="admin-nav-link">
+            <i class="fa-solid fa-user-shield"></i>
+            <span>ADMIN</span>
+          </a>
+        }
+      </nav>
+    </div>
+  </div>
+</header>

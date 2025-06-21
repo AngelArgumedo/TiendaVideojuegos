@@ -1,0 +1,141 @@
+// src/app/features/admin/components/order-detail-modal/order-detail-modal.component.scss
+
+// Reutilizamos los estilos base del modal de usuario para la estructura.
+@import '../user-edit-modal/user-edit-modal.component.scss';
+
+// Animación de aparición para los elementos del modal
+@keyframes item-fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+// Sobrescribimos y añadimos estilos para un look más elegante
+.modal-header .header-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+
+  i {
+    color: var(--primary-color);
+  }
+}
+
+.modal-body {
+  .section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin: 1.5rem 0 1rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
+
+// --- ¡NUEVO! Estilos para la tarjeta de información ---
+.info-card {
+  display: grid;
+  // Dos columnas en pantallas grandes, una en pequeñas
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  background-color: var(--dark-bg-primary);
+  padding: 1.25rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+
+  .info-item {
+    &.full-width {
+      grid-column: 1 / -1; // Ocupa todo el ancho
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.25rem;
+    }
+    span {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      word-break: break-all; // Evita que textos largos se desborden
+    }
+  }
+}
+
+.items-table-wrapper {
+  max-height: 250px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+}
+
+.items-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td { padding: 0.85rem 1rem; }
+
+  thead {
+    background-color: var(--dark-bg-primary);
+    position: sticky;
+    top: 0;
+  }
+
+  tbody tr {
+    border-top: 1px solid var(--border-color);
+    animation: item-fade-in 0.5s ease-out backwards;
+    @for $i from 1 through 10 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{$i * 0.05}s;
+      }
+    }
+  }
+
+  .text-right { text-align: right; }
+  .font-bold { font-weight: 700; }
+}
+
+.modal-footer {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-update {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+  }
+
+  select {
+    background-color: var(--dark-bg-primary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0.6rem;
+    border-radius: 0.375rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.2);
+    }
+
+    // Colores según el estado
+    &.procesando { color: #f59e0b; }
+    &.enviado { color: #3b82f6; }
+    &.completado { color: #22c55e; }
+    &.cancelado { color: #ef4444; }
+  }
+}

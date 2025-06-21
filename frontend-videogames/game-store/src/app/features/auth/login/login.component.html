@@ -1,0 +1,64 @@
+<div class="login-page">
+  <!-- Este div será nuestro fondo con la imagen -->
+  <div class="login-background"></div>
+
+  <!-- El contenedor del formulario ahora se superpone -->
+  <div class="login-container">
+    <div class="login-header">
+      <i class="fas fa-gamepad logo-icon"></i>
+      <h2>Iniciar Sesión</h2>
+      <p>Accede a tu cuenta para continuar</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="login-form">
+
+      <div class="form-group">
+        <label for="correo">Correo Electrónico</label>
+        <input
+          id="correo"
+          type="email"
+          name="correo"
+          [(ngModel)]="credentials.correo"
+          placeholder="tu@correo.com"
+          required
+          email
+          #correoInput="ngModel">
+      </div>
+
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input
+          id="password"
+          type="password"
+          name="password"
+          [(ngModel)]="credentials.password"
+          placeholder="••••••••"
+          required
+          #passwordInput="ngModel">
+      </div>
+
+      @if (formState() === 'error' && errorMessage()) {
+        <div class="error-message">
+          {{ errorMessage() }}
+        </div>
+      }
+
+      <button
+        type="submit"
+        class="submit-button"
+        [disabled]="loginForm.invalid || formState() === 'loading'">
+        @if (formState() === 'loading') {
+          <span class="spinner"></span>
+          <span>Validando...</span>
+        } @else {
+          <span>Ingresar</span>
+        }
+      </button>
+
+    </form>
+
+    <div class="register-link">
+      <p>¿No tienes una cuenta? <a routerLink="/registro">Regístrate aquí</a></p>
+    </div>
+  </div>
+</div>

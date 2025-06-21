@@ -1,0 +1,23 @@
+<!-- El '@if' se asegura de no intentar mostrar la tarjeta si el producto aún no ha llegado -->
+@if (product()) {
+  <div class="product-card">
+    <div class="product-card__image-container">
+      <!-- Hacemos que la imagen también sea un enlace -->
+      <a [routerLink]="['/productos', product().id]">
+        <img [src]="fullImageUrl()" [alt]="product().nombre" class="product-card__image">
+      </a>
+    </div>
+    <div class="product-card__content">
+      <span class="product-card__category">{{ product().consola }} / {{ product().categoria }}</span>
+      <h3 class="product-card__title">
+        <!-- El título también es un enlace -->
+        <a [routerLink]="['/productos', product().id]">{{ product().nombre }}</a>
+      </h3>
+      <div class="product-card__footer">
+        <p class="product-card__price">{{ product().precio | currency:'USD':'symbol':'1.0-0' }}</p>
+        <!-- CORRECCIÓN: El botón ahora es un enlace que usa routerLink -->
+        <a [routerLink]="['/productos', product().id]" class="product-card__button">Ver Detalles</a>
+      </div>
+    </div>
+  </div>
+}

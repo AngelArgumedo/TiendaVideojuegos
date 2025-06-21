@@ -1,0 +1,98 @@
+<!-- src/app/features/cart/cart-view/cart-view.component.html -->
+
+<div class="cart-page">
+  <div class="cart-container">
+    <h1 class="page-title">Tu Carrito de Compras</h1>
+
+    @if (cartService.cartState().items.length > 0) {
+      <div class="cart-content">
+        <!-- Lista de Items -->
+        <div class="cart-items-list">
+          @for (item of cartService.cartState().items; track item.id) {
+            <div class="cart-item">
+              <img [src]="item.imagen_url" [alt]="item.nombre" class="item-image">
+              <div class="item-details">
+                <h3 class="item-name">{{ item.nombre }}</h3>
+                <p class="item-price">{{ item.precio | currency:'USD':'symbol':'1.0-0' }}</p>
+              </div>
+              <div class="item-actions">
+                <input
+                  type="number"
+                  [value]="item.cantidad"
+                  (change)="updateQuantity(item.id, $event)"
+                  min="0"
+                  class="item-quantity">
+                <button (click)="removeItem(item.id)" class="item-remove-button" title="Eliminar item">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+              <p class="item-subtotal">
+                {{ (item.precio * item.cantidad) | currency:'USD':'symbol':'1.0-0' }}
+              </p>
+            </div>
+          }
+        </div>
+
+        <!-- Resumen del Pedido -->
+        <div class="order-summary">
+          <h2 class="summary-title">Resumen del Pedido</h2>
+
+          <div class="summary-row">
+            <span>Subtotal ({{ cartService.cartState().totalItems }} items)</span>
+            <span>{{ cartService.cartState().totalPrice | currency:'USD':'symbol':'1.0-0' }}</span>
+          </div>
+
+          <div class="shipping-options">
+            <label>Método de Envío</label>
+            <select [ngModel]="selectedShippingMethod()" (ngModelChange)="selectedShippingMethod.set($event)">
+              <option value="standard">Estándar ($5.00)</option>
+              <option value="express">Express ($15.00)</option>
+              <option value="pickup">Recogida en Tienda ($0.00)</option>
+            </select>
+          </div>
+
+          <div class="summary-row">
+            <span>Costo de Envío</span>
+            <span>{{ shippingCost() | currency:'USD':'symbol':'1.0-0' }}</span>
+          </div>
+
+          <hr class="summary-divider">
+
+          <div class="summary-row total">
+            <span>Total</span>
+            <span>{{ totalPrice() | currency:'USD':'symbol':'1.0-0' }}</span>
+          </div>
+
+          <button class="checkout-button" (click)="handleCheckout()" [disabled]="checkoutState() === 'loading'">
+            @if(checkoutState() === 'loading'){
+              <span class="spinner"></span> Procesando...
+            } @else {
+              Finalizar Compra
+            }
+          </button>
+
+          @if (checkoutState() === 'success' || checkoutState() === 'error') {
+            <div class="checkout-message" [class.success]="checkoutState() === 'success'">
+              {{ checkoutMessage() }}
+            </div>
+          }
+        </div>
+      </div>
+    } @else {
+      <!-- Carrito Vacío -->
+      <div class="empty-cart">
+        @if (checkoutState() === 'success') {
+          <i class="fas fa-check-circle success-icon"></i>
+          <h2>¡Gracias por tu compra!</h2>
+          <p>{{ checkoutMessage() }}</p>
+          <a routerLink="/productos" class="back-link">Seguir Comprando</a>
+        } @else {
+          <i class="fas fa-shopping-cart empty-icon"></i>
+          <h2>Tu carrito está vacío</h2>
+          <p>Añade productos desde nuestro catálogo para continuar.</p>
+          <a routerLink="/productos" class="back-link">Ir al Catálogo</a>
+        }
+      </div>
+    }
+  </div>
+</div>

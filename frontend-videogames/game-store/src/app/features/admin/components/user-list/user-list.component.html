@@ -1,0 +1,69 @@
+<!-- src/app/features/admin/components/user-list/user-list.component.html -->
+
+<div class="user-list-container">
+  <div class="list-header">
+    <h1>Gestión de Usuarios</h1>
+  </div>
+
+  @switch (true) {
+    @case (state().loading) {
+      <div class="state-view">
+        <span class="spinner"></span>
+        <span>Cargando usuarios...</span>
+      </div>
+    }
+
+    @case (state().error != null) {
+      <div class="state-view error">{{ state().error }}</div>
+    }
+
+    @case (state().users.length > 0) {
+      <div class="table-wrapper">
+        <table class="user-table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Correo Electrónico</th>
+              <th>Rol</th>
+              <th>Fecha de Registro</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (user of state().users; track user.id) {
+              <tr>
+                <td>{{ user.nombre }} {{ user.apellido }}</td>
+                <td>{{ user.correo }}</td>
+                <td>
+                  <span class="role-badge" [ngClass]="user.tipo_usuario">{{ user.tipo_usuario }}</span>
+                </td>
+                <td>{{ user.fecha_creacion | date:'mediumDate' }}</td>
+                <td class="actions-cell">
+                  <button class="action-button edit" title="Editar usuario" (click)="onEditUser(user)">
+                    <i class="fas fa-pencil-alt"></i>
+                  </button>
+                  <button class="action-button delete" title="Eliminar usuario" (click)="onDeleteUser(user)">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+
+    @default {
+      <div class="state-view">No hay usuarios registrados.</div>
+    }
+  }
+</div>
+
+<!-- Modal de Edición -->
+@if (editingUser()) {
+  <app-user-edit-modal
+    [user]="editingUser()"
+    (save)="onSaveChanges($event)"
+    (close)="onCloseEditModal()">
+  </app-user-edit-modal>
+}

@@ -1,0 +1,141 @@
+// src/app/features/admin/components/user-list/user-list.component.scss
+
+// Usamos las variables globales de :root
+.list-header {
+  margin-bottom: 2rem;
+  h1 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+}
+
+.table-wrapper {
+  background-color: var(--dark-bg-secondary);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  thead {
+    background-color: #2a3546; // Un azul oscuro para la cabecera
+    tr {
+      border-bottom: 2px solid var(--primary-color);
+    }
+    th {
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid var(--border-color);
+      transition: background-color 0.2s ease;
+      &:last-child {
+        border-bottom: none;
+      }
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.03);
+      }
+    }
+    td {
+      color: var(--text-primary);
+      vertical-align: middle;
+    }
+  }
+}
+
+.role-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #000;
+  text-transform: capitalize;
+  border: 1px solid;
+
+  &.admin {
+    background-color: var(--primary-color);
+    border-color: darken(#ffc107, 10%);
+  }
+  &.comprador {
+    background-color: #6b7280; // Gris
+    border-color: #4b5563;
+    color: var(--text-primary);
+  }
+}
+
+.actions-cell {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.action-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    &.edit { color: #34d399; } // Verde para editar
+    &.delete { color: #ef4444; } // Rojo para eliminar
+  }
+}
+
+.state-view {
+  text-align: center;
+  padding: 4rem;
+  background-color: var(--dark-bg-secondary);
+  color: var(--text-secondary);
+  border-radius: 0.75rem;
+  font-size: 1.125rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+
+  &.error {
+    color: #fca5a5;
+    background-color: rgba(239, 68, 68, 0.1);
+  }
+}
+
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.text-center {
+  text-align: center;
+}

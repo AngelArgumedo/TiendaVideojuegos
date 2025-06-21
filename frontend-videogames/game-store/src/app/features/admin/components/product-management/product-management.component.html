@@ -1,0 +1,80 @@
+<!-- src/app/features/admin/components/product-management/product-management.component.html -->
+
+<div class="management-container">
+  <div class="list-header">
+    <h1>Gestión de Productos</h1>
+    <!-- El botón ahora llama a onOpenAddModal() -->
+    <button class="add-button" (click)="onOpenAddModal()">
+      <i class="fas fa-plus"></i> Añadir Producto
+    </button>
+  </div>
+
+  @switch (true) {
+    @case (state().loading) {
+      <div class="state-view"><span class="spinner"></span>Cargando productos...</div>
+    }
+    @case (state().error != null) {
+      <div class="state-view error">{{ state().error }}</div>
+    }
+    @case (state().products.length > 0) {
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Categoría</th>
+              <th>Precio</th>
+              <th>Stock</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (product of state().products; track product.id) {
+              <tr>
+                <td>
+                  <div class="product-cell">
+                    <img [src]="product.imagen_url" [alt]="product.nombre" class="product-image">
+                    <span>{{ product.nombre }}</span>
+                  </div>
+                </td>
+                <td>{{ product.categoria }} / {{ product.consola }}</td>
+                <td>{{ product.precio | currency:'USD':'symbol':'1.0-0' }}</td>
+                <td>
+                  <span class="stock-badge" [class.low-stock]="product.stock < 10">{{ product.stock }}</span>
+                </td>
+                <td class="actions-cell">
+                  <!-- Conectamos los botones a sus métodos correctos -->
+                  <button class="action-button edit" title="Editar producto" (click)="onOpenEditModal(product)">
+                    <i class="fas fa-pencil-alt"></i>
+                  </button>
+                  <button class="action-button delete" title="Eliminar producto" (click)="onDeleteProduct(product)">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+    @default {
+      <div class="state-view">No hay productos para mostrar.</div>
+    }
+  }
+</div>
+
+<!-- Renderizado condicional de CADA modal por separado -->
+@if (editingProduct()) {
+  <app-product-edit-modal
+    [product]="editingProduct()"
+    (save)="onSaveEdit($event)"
+    (close)="onCloseEditModal()">
+  </app-product-edit-modal>
+}
+
+@if (isAddingProduct()) {
+  <app-product-add-modal
+    (save)="onSaveNewProduct($event)"
+    (close)="onCloseAddModal()">
+  </app-product-add-modal>
+}
